@@ -5,7 +5,9 @@ export default async function Home() {
   const sesstion = await auth();
   return (
     <div className="flex h-screen justify-center items-center">
-      <h1>{sesstion?.user?.name}</h1>
+      <h1>
+        {sesstion?.user ? <p>{sesstion.user.name}</p> : <p>Login First</p>}
+      </h1>
     </div>
   );
 }
