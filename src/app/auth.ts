@@ -1,6 +1,7 @@
 import NextAuth, { NextAuthConfig } from "next-auth";
 import Google from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { request } from "https";
 
 const config = {
   providers: [
@@ -28,6 +29,14 @@ const config = {
       },
     }),
   ],
+  callbacks: {
+    authorized({ auth, request }) {
+      const { pathname } = request.nextUrl;
+
+      if (pathname === "/middlewareSide") return !!auth;
+      return true;
+    },
+  },
 } satisfies NextAuthConfig;
 
 export const { handlers, auth, signIn, signOut } = NextAuth(config);
